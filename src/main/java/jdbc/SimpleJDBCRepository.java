@@ -37,6 +37,7 @@ public class SimpleJDBCRepository {
 
     public Long createUser(User user) {
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(createUserSQL);
             ps.setString(1, user.getFirstName());
             ps.setString(2, user.getLastName());
@@ -53,6 +54,7 @@ public class SimpleJDBCRepository {
         }
         User user = new User();
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(findUserByIdSQL);
             ps.setLong(1, userId);
             ResultSet resultSet = ps.executeQuery();
@@ -71,6 +73,7 @@ public class SimpleJDBCRepository {
     public User findUserByName(String userName) {
         User user = new User();
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(findUserByNameSQL);
             ps.setString(1, userName);
             ResultSet resultSet = ps.executeQuery();
@@ -92,6 +95,7 @@ public class SimpleJDBCRepository {
         List<User> userList = new ArrayList<>();
         User user;
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(findAllUserSQL);
             ResultSet resultSet = ps.executeQuery();
             while(resultSet.next()) {
@@ -112,6 +116,7 @@ public class SimpleJDBCRepository {
     public User updateUser(User user) {
         User existsUser = findUserById(user.getId());
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(updateUserSQL);
             ps.setLong(4,  existsUser.getId());
             ps.setString(1,user.getFirstName());
@@ -126,6 +131,7 @@ public class SimpleJDBCRepository {
 
     public void deleteUser(Long userId) {
         try {
+            connection = CustomDataSource.getInstance().getConnection();
             ps = connection.prepareStatement(deleteUser);
             ps.setLong(1, userId);
             ps.executeUpdate();
